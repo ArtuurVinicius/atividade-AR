@@ -1,27 +1,40 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>AR.js Hiro Marker Example</title>
-    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
-    <script src="https://cdn.rawgit.com/jeromeetienne/AR.js/2.2.1/aframe/build/aframe-ar.js"></script>
-  </head>
-  <body style="margin: 0; overflow: hidden;">
-    <a-scene
-      embedded
-      arjs="sourceType: webcam;"
-      vr-mode-ui="enabled: false"
-    >
-      <!-- Usa o marcador Hiro -->
-      <a-marker preset="hiro">
-        <!-- Substitua 'models/modelo.glb' pelo caminho do seu modelo -->
-        <a-entity 
-          gltf-model="models/2015_mansory_huracan_torofeo_full_carbon.glb"
-          scale="50 50 50"
-          position="0 0 0"
-          rotation="0 0 0">
-        </a-entity>
-      </a-marker>
-      <a-entity camera></a-entity>
-    </a-scene>
-  </body>
+    <head>
+        <title>AR.js Hiro Marker Example</title>
+        <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+        <script src="https://cdn.rawgit.com/jeromeetienne/AR.js/2.2.1/aframe/build/aframe-ar.js"></script>
+    </head>
+    <body style="margin: 0; overflow: hidden">
+        <a-scene
+            embedded
+            arjs="sourceType: webcam;"
+            vr-mode-ui="enabled: false"
+        >
+            <a-marker preset="hiro" id="hiro-marker">
+                <a-entity
+                    gltf-model="models/2015_mansory_huracan_torofeo_full_carbon.glb"
+                    scale="50 50 50"
+                    position="0 0 0"
+                    rotation="0 0 0"
+                >
+                </a-entity>
+                <a-sound
+                    id="car-sound"
+                    src="url(sounds/Aventador-sfx.mp3)"
+                    autoplay="false"
+                ></a-sound>
+            </a-marker>
+            <a-entity camera></a-entity>
+        </a-scene>
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                const marker = document.querySelector("#hiro-marker");
+                const sound = document.querySelector("#car-sound");
+                marker.addEventListener("markerFound", function () {
+                    sound.components.sound.playSound();
+                });
+            });
+        </script>
+    </body>
 </html>
