@@ -1,26 +1,50 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>AR.js Hiro Marker Example</title>
-    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
-    <script src="https://cdn.rawgit.com/jeromeetienne/AR.js/2.2.1/aframe/build/aframe-ar.js"></script>
-  </head>
-  <body style="margin: 0; overflow: hidden;">
-    <a-scene
-      embedded
-      arjs="sourceType: webcam;"
-      vr-mode-ui="enabled: false"
-    >
-      <!-- Usa o marcador Hiro -->
-      <a-marker preset="hiro">
-        <a-entity 
-          gltf-model="models/2015_mansory_huracan_torofeo_full_carbon.glb"
-          scale="0.5 0.5 0.5"
-          position="0 0 0"
-          rotation="0 0 0">
-        </a-entity>
-      </a-marker>
-      <a-entity camera></a-entity>
-    </a-scene>
-  </body>
+    <head>
+        <title>AR.js Multiple Models</title>
+        <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+        <script src="https://cdn.rawgit.com/jeromeetienne/AR.js/2.2.1/aframe/build/aframe-ar.js"></script>
+    </head>
+    <body style="margin: 0; overflow: hidden">
+        <a-scene
+            embedded
+            arjs="sourceType: webcam;"
+            vr-mode-ui="enabled: false"
+        >
+            <!-- Marcador Hiro - Lamborghini -->
+            <a-marker preset="hiro" id="hiro-marker">
+                <a-entity
+                    gltf-model="public/models/2015_mansory_huracan_torofeo_full_carbon.glb"
+                    scale="0.5 0.5 0.5"
+                    position="0 0 0"
+                    rotation="0 0 0"
+                >
+                </a-entity>
+            </a-marker>
+
+            <!-- Marcador Kanji - BMW -->
+            <a-marker preset="kanji" id="kanji-marker">
+                <a-entity
+                    gltf-model="public/models/2005_bmw_m3_gtr_need_for_speed_most_wanted.glb"
+                    scale="0.5 0.5 0.5"
+                    position="0 0 0"
+                    rotation="0 0 0"
+                >
+                </a-entity>
+            </a-marker>
+
+            <!-- Marcador Pattern - Mitsubishi -->
+            <a-marker type="pattern" url="/public/pattern-dobby_cat.patt" id="pattern-marker">
+                <a-entity
+                    gltf-model="public/models/1995_mitsubishi_eclipse_robocar_fast__furious.glb"
+                    scale="0.5 0.5 0.5"
+                    position="0 0 0"
+                    rotation="0 0 0"
+                >
+                </a-entity>
+            </a-marker>
+
+            <a-entity camera></a-entity>
+        </a-scene>
+    </body>
 </html>
