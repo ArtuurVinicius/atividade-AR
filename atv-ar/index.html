@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>AR.js Multiple Models</title>
+        <title>Oficina do Tuts</title>
         <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
         <script src="https://cdn.rawgit.com/jeromeetienne/AR.js/2.2.1/aframe/build/aframe-ar.js"></script>
     </head>
@@ -14,30 +14,33 @@
             <!-- Marcador Hiro - Lamborghini -->
             <a-marker preset="hiro" id="hiro-marker">
                 <a-entity
-                    gltf-model="public/models/2015_mansory_huracan_torofeo_full_carbon.glb"
-                    scale="0.5 0.5 0.5"
+                    gltf-model="/models/huracan.glb"
+                    scale="50 50 50"
                     position="0 0 0"
                     rotation="0 0 0"
                 >
                 </a-entity>
             </a-marker>
 
-            <!-- Marcador Kanji - BMW -->
-            <a-marker preset="kanji" id="kanji-marker">
+            <a-marker 
+                type="pattern" 
+                url="/pattern-dobby_cat.patt" 
+                id="dobby-marker">
                 <a-entity
-                    gltf-model="public/models/2005_bmw_m3_gtr_need_for_speed_most_wanted.glb"
-                    scale="0.5 0.5 0.5"
+                    gltf-model="/models/gtr.glb"
+                    scale="50 50 50"
                     position="0 0 0"
                     rotation="0 0 0"
                 >
                 </a-entity>
             </a-marker>
 
-            <!-- Marcador Pattern - Mitsubishi -->
-            <a-marker type="pattern" url="pattern-marker.patt" id="pattern-marker">
+            <a-marker type="pattern" 
+                url="/pattern-damn.patt" 
+                id="dobby-marker">
                 <a-entity
-                    gltf-model="public/models/1995_mitsubishi_eclipse_robocar_fast__furious.glb"
-                    scale="0.5 0.5 0.5"
+                    gltf-model="/models/eclipse.glb"
+                    scale="50 50 50"
                     position="0 0 0"
                     rotation="0 0 0"
                 >
