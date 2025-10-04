@@ -19,6 +19,12 @@
             min-width: 220px;
             display: none;
         "></div>
+
+        <!-- Áudios -->
+        <audio id="audio-huracan" src="/sounds/huracan.mp3" preload="auto"></audio>
+        <audio id="audio-gtr" src="/sounds/gtr.mp3" preload="auto"></audio>
+        <audio id="audio-eclipse" src="/sounds/eclipse.mp3" preload="auto"></audio>
+
         <a-scene
             embedded
             arjs="sourceType: webcam;"
@@ -35,6 +41,7 @@
                 </a-entity>
             </a-marker>
 
+            <!-- Marcador Dobby Cat - GTR -->
             <a-marker 
                 type="pattern" 
                 url="/pattern-dobby_cat.patt" 
@@ -48,9 +55,10 @@
                 </a-entity>
             </a-marker>
 
+            <!-- Marcador Damn - Eclipse -->
             <a-marker type="pattern" 
                 url="/pattern-damn.patt" 
-                id="dobby-marker">
+                id="damn-marker">
                 <a-entity
                     gltf-model="/models/eclipse.glb"
                     scale="50 50 50"
@@ -66,30 +74,44 @@
         <script>
 const carData = {
     "hiro-marker": {
-        base: "Lamborghini Huracán LP610-4",
+        base: "Lamborghini Huracan LP610-4",
         motor: "V10 5.2L aspirado, modificado Mansory",
         potencia: "1.000 cv",
         torque: "1.000 Nm",
-        zeroCem: "2,7 s"
+        zeroCem: "2,7 s",
+        audioId: "audio-huracan"
     },
     "dobby-marker": {
         base: "Nissan GT-R R35",
         motor: "V6 3.8L Biturbo",
         potencia: "565 cv",
         torque: "633 Nm",
-        zeroCem: "2,9 s"
+        zeroCem: "2,9 s",
+        audioId: "audio-gtr"
     },
-    // Adicione outros marcadores conforme necessário
-    "pattern-damn-marker": {
+    "damn-marker": {
         base: "Mitsubishi Eclipse GS 1995",
         motor: "2.0L 16V DOHC I4 Turbo",
         potencia: "250 cv",
         torque: "320 Nm",
-        zeroCem: "6,5 s"
+        zeroCem: "6,5 s",
+        audioId: "audio-eclipse"
     }
 };
 
-// Função para mostrar informações
+// Pausa todos os <audio> presentes na página
+function stopAllAudio() {
+    document.querySelectorAll('audio').forEach(a => {
+        try {
+            a.pause();
+            a.currentTime = 0;
+        } catch (e) {
+            // ignore
+        }
+    });
+}
+
+// Função para mostrar informações e tocar áudio
 function showCarInfo(markerId) {
     const info = carData[markerId];
     const infoDiv = document.getElementById('car-info');
@@ -102,32 +124,45 @@ function showCarInfo(markerId) {
             <strong>0-100 km/h:</strong> ${info.zeroCem}
         `;
         infoDiv.style.display = 'block';
+
+        // parar quaisquer áudios antes de tocar o novo
+        stopAllAudio();
+
+        // tocar áudio correspondente (pode exigir interação do usuário no navegador)
+        if (info.audioId) {
+            const audioEl = document.getElementById(info.audioId);
+            if (audioEl) {
+                const p = audioEl.play();
+                if (p && p.catch) p.catch(()=>{}); // evitar erro de promessa não tratada
+            }
+        }
     } else {
         infoDiv.style.display = 'none';
     }
 }
 
-// Função para esconder informações
+// Função para esconder informações e parar áudio
 function hideCarInfo() {
     document.getElementById('car-info').style.display = 'none';
+    stopAllAudio();
 }
 
 // Adiciona eventos aos marcadores
 window.addEventListener('DOMContentLoaded', () => {
-    const hiro = document.querySelector('#hiro-marker');
-    const dobby = document.querySelectorAll('#dobby-marker');
-    const damn = document.querySelector('a-marker[url="/pattern-damn.patt"]');
+    const hiro = document.getElementById('hiro-marker');
+    const dobby = document.getElementById('dobby-marker');
+    const damn = document.getElementById('damn-marker');
 
     if (hiro) {
         hiro.addEventListener('markerFound', () => showCarInfo('hiro-marker'));
         hiro.addEventListener('markerLost', hideCarInfo);
     }
-    if (dobby.length > 0) {
-        dobby[0].addEventListener('markerFound', () => showCarInfo('dobby-marker'));
-        dobby[0].addEventListener('markerLost', hideCarInfo);
+    if (dobby) {
+        dobby.addEventListener('markerFound', () => showCarInfo('dobby-marker'));
+        dobby.addEventListener('markerLost', hideCarInfo);
     }
     if (damn) {
-        damn.addEventListener('markerFound', () => showCarInfo('pattern-damn-marker'));
+        damn.addEventListener('markerFound', () => showCarInfo('damn-marker'));
         damn.addEventListener('markerLost', hideCarInfo);
     }
 });
