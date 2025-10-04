@@ -6,6 +6,19 @@
         <script src="https://cdn.rawgit.com/jeromeetienne/AR.js/2.2.1/aframe/build/aframe-ar.js"></script>
     </head>
     <body style="margin: 0; overflow: hidden">
+        <div id="car-info" style="
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: rgba(0,0,0,0.7);
+            color: #fff;
+            padding: 12px 18px;
+            border-radius: 8px;
+            font-family: Arial, sans-serif;
+            z-index: 10;
+            min-width: 220px;
+            display: none;
+        "></div>
         <a-scene
             embedded
             arjs="sourceType: webcam;"
@@ -17,7 +30,7 @@
                     gltf-model="/models/huracan.glb"
                     scale="50 50 50"
                     position="0 0 0"
-                    rotation="0 0 0"
+                    rotation="-90 0 0"
                 >
                 </a-entity>
             </a-marker>
@@ -49,5 +62,75 @@
 
             <a-entity camera></a-entity>
         </a-scene>
+
+        <script>
+const carData = {
+    "hiro-marker": {
+        base: "Lamborghini Huracán LP610-4",
+        motor: "V10 5.2L aspirado, modificado Mansory",
+        potencia: "1.000 cv",
+        torque: "1.000 Nm",
+        zeroCem: "2,7 s"
+    },
+    "dobby-marker": {
+        base: "Nissan GT-R R35",
+        motor: "V6 3.8L Biturbo",
+        potencia: "565 cv",
+        torque: "633 Nm",
+        zeroCem: "2,9 s"
+    },
+    // Adicione outros marcadores conforme necessário
+    "pattern-damn-marker": {
+        base: "Mitsubishi Eclipse GS 1995",
+        motor: "2.0L 16V DOHC I4 Turbo",
+        potencia: "250 cv",
+        torque: "320 Nm",
+        zeroCem: "6,5 s"
+    }
+};
+
+// Função para mostrar informações
+function showCarInfo(markerId) {
+    const info = carData[markerId];
+    const infoDiv = document.getElementById('car-info');
+    if (info) {
+        infoDiv.innerHTML = `
+            <strong>Base:</strong> ${info.base}<br>
+            <strong>Motor:</strong> ${info.motor}<br>
+            <strong>Potencia:</strong> ${info.potencia}<br>
+            <strong>Torque:</strong> ${info.torque}<br>
+            <strong>0-100 km/h:</strong> ${info.zeroCem}
+        `;
+        infoDiv.style.display = 'block';
+    } else {
+        infoDiv.style.display = 'none';
+    }
+}
+
+// Função para esconder informações
+function hideCarInfo() {
+    document.getElementById('car-info').style.display = 'none';
+}
+
+// Adiciona eventos aos marcadores
+window.addEventListener('DOMContentLoaded', () => {
+    const hiro = document.querySelector('#hiro-marker');
+    const dobby = document.querySelectorAll('#dobby-marker');
+    const damn = document.querySelector('a-marker[url="/pattern-damn.patt"]');
+
+    if (hiro) {
+        hiro.addEventListener('markerFound', () => showCarInfo('hiro-marker'));
+        hiro.addEventListener('markerLost', hideCarInfo);
+    }
+    if (dobby.length > 0) {
+        dobby[0].addEventListener('markerFound', () => showCarInfo('dobby-marker'));
+        dobby[0].addEventListener('markerLost', hideCarInfo);
+    }
+    if (damn) {
+        damn.addEventListener('markerFound', () => showCarInfo('pattern-damn-marker'));
+        damn.addEventListener('markerLost', hideCarInfo);
+    }
+});
+</script>
     </body>
 </html>
