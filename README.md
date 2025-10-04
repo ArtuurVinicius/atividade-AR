@@ -1,5 +1,10 @@
 # atv-ar — AR markers com A-Frame / AR.js + Vue (Vite)
 
+Alunos:
+- Artur Vinícius Lima Ramos da Silva
+- Gustavo dos Santos Silva
+
+
 Projeto de demonstração que combina A-Frame + AR.js para detectar marcadores e exibir modelos GLB. Usa Vue para mostrar um card lateral com informações do carro e tocar áudios da pasta `public/sounds`.
 
 ## Requisitos
